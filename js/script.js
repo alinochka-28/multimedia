@@ -13,45 +13,37 @@ const canvasCtx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 90;
 
-function drawWaveform() {
-    requestAnimationFrame(drawWaveform);
+function drawSpectrum() {
+    requestAnimationFrame(drawSpectrum);
 
-    const bufferLength = analyser.fftSize; // Используем FFT размер
-    const dataArray = new Float32Array(bufferLength);
-    analyser.getFloatTimeDomainData(dataArray); // Получаем данные по времени
+    const bufferLength = analyser.frequencyBinCount; // Количество частот
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(dataArray); // Получение данных о частотах
 
-    canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Прозрачный фон
-    canvasCtx.fillRect(0, 0, canvas.width, canvas.height); // Очищаем холст
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height); // Очистка холста
 
-    canvasCtx.lineWidth = 2; // Толщина линии
-    canvasCtx.strokeStyle = 'rgb(255, 255, 255)'; // Цвет линии
-
-    canvasCtx.beginPath();
-
-    const sliceWidth = canvas.width / bufferLength; // Ширина каждого среза
+    const barWidth = (canvas.width / bufferLength) * 2.5; // Ширина баров
+    let barHeight;
     let x = 0;
 
     for (let i = 0; i < bufferLength; i++) {
-        const v = dataArray[i] * 0.5 + 0.5; // Преобразуем данные в диапазон [0, 1]
-        const y = v * canvas.height; // Масштабируем по высоте
+        barHeight = dataArray[i]; // Высота бара
 
-        if (i === 0) {
-            canvasCtx.moveTo(x, y); // Начальная точка
-        } else {
-            canvasCtx.lineTo(x, y); // Соединяем линии
-        }
+        const r = barHeight + 100; // Красный
+        const g = Math.max(0, 255 - barHeight); // Зеленый
+        const b = 50 + (barHeight / 2); // Синий
 
-        x += sliceWidth; // Переход к следующему срезу
+        canvasCtx.fillStyle = `rgb(${r},${g},${b})`;
+        canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2); // Рисуем прямоугольник
+
+        x += barWidth + 1; // Переход к следующему бару
     }
-
-    canvasCtx.lineTo(canvas.width, canvas.height / 2); // Завершаем линию
-    canvasCtx.stroke(); // Рисуем линию
 }
 
 // Вызов функции визуализации при воспроизведении аудио
 audioElement.onplay = () => {
     audioCtx.resume();
-    drawWaveform(); // Запуск визуализации волны
+    drawSpectrum(); // Запуск визуализации спектра
 };
 
 
