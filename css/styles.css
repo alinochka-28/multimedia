@@ -48,22 +48,17 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(169, 169, 169, 0.7); /* Фоновый цвет кнопки */
-  border: none; /* Убираем границу */
-  padding: 0; /* Убираем отступ, чтобы не было дополнительного пространства */
-  cursor: pointer; /* Курсор в виде указателя при наведении */
-  border-radius: 50%; /* Делаем кнопку круглой */
-  width: 60px; /* Ширина кнопки */
-  height: 60px; /* Высота кнопки */
-  font-size: 28px; /* Размер шрифта */
-  color: white; /* Цвет текста */
-  display: flex; /* Используем flexbox для центрирования содержимого */
-  justify-content: center; /* Центрируем содержимое по горизонтали */
-  align-items: center; /* Центрируем содержимое по вертикали */
-  transition: transform 0.3s, background-color 0.3s; /* Анимация при наведении */
+  background-color: rgba(169, 169, 169, 0.7);
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  color: white;
+  transition: transform 0.3s, background-color 0.3s;
 }
-
-
 
 .image-nav-button.left {
   left: -70px; /* Увеличил смещение влево */
@@ -74,8 +69,8 @@ body {
 }
 
 .image-nav-button:hover {
-  transform: translateY(-50%) scale(1.1); /* Увеличиваем размер кнопки при наведении */
-  background-color: rgba(169, 169, 169, 1); /* Меняем цвет фона при наведении */
+  transform: translateY(-50%) scale(1.1);
+  background-color: rgba(169, 169, 169, 1);
 }
 
 /* Управление аудиоплеером */
