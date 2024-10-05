@@ -9,38 +9,41 @@
 <body>
     <div class="gallery-container">
         <div id="image-container">
-            <button class="image-nav-button left" onclick="prevImage()">&#10094;</button>
+            <button class="image-nav-button left" onclick="prevImage()">
+                <span class="arrow-icon">&#10094;</span>
+            </button>
             <img id="current-image" src="img/image1.png" alt="Gallery Image">
-            <button class="image-nav-button right" onclick="nextImage()">&#10095;</button>
-        </div>        
-
+            <button class="image-nav-button right" onclick="nextImage()">
+                <span class="arrow-icon">&#10095;</span>
+            </button>
+        </div>
+        
         <hr class="divider"> <!-- Разделительная черта -->
-
+    
         <div class="audio-controls">
-            <p id="audio-filename"> </p>
-
+    
             <div class="player-controls">
-                <!-- Кнопка для предыдущего трека -->
-                <button class="control-button" onclick="previousTrack();">
+                <!-- Кнопка для предыдущего трека с классом large -->
+                <button class="control-button large" onclick="previousTrack();">
                     <img src="icons/previous.png" alt="Предыдущий трек">
                 </button>
-
+            
                 <!-- Кнопка воспроизведения/паузы -->
                 <button class="control-button" id="play-pause-button" onclick="togglePlayPause()">
                     <img id="play-pause-icon" src="icons/play.png" alt="Воспроизведение">
                 </button>
-
+            
                 <!-- Кнопка для следующего трека -->
                 <button class="control-button" onclick="nextTrack();">
                     <img src="icons/next.png" alt="Следующий трек">
                 </button>
-            </div>
-
+            </div>            
+    
             <input type="range" id="progress-bar" value="0" min="0" max="100" step="1" onchange="changeAudioPosition()">
-
+    
             <input type="file" id="audio-upload" accept="audio/*" onchange="uploadAudio(event)">
         </div>
-    </div>
+    </div>    
     <script src="js/script.js"></script>
 </body>
 </html>
