@@ -3,22 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>галерея изображений</title>
+  <title>Галерея изображений</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="gallery-container">
         <div id="image-container">
+            <!-- Кнопка "Назад" -->
+            <button class="image-nav-button left" onclick="prevImage()">&#10094;</button>
             <img id="current-image" src="img/image1.png" alt="Gallery Image">
+            <!-- Кнопка "Вперед" -->
+            <button class="image-nav-button right" onclick="nextImage()">&#10095;</button>
         </div>
         <p id="image-comment">Цветок</p>
+
+        <hr class="divider"> <!-- Разделительная черта -->
 
         <div class="audio-controls">
             <p id="audio-filename"> </p>
 
             <div class="player-controls">
-                <!-- Кнопка для предыдущего трека и изображения -->
-                <button class="control-button" onclick="previousTrack(); prevImage();">
+                <!-- Кнопка для предыдущего трека -->
+                <button class="control-button" onclick="previousTrack();">
                     <img src="icons/previous.png" alt="Предыдущий трек">
                 </button>
 
@@ -27,8 +33,8 @@
                     <img id="play-pause-icon" src="icons/play.png" alt="Воспроизведение">
                 </button>
 
-                <!-- Кнопка для следующего трека и изображения -->
-                <button class="control-button" onclick="nextTrack(); nextImage();">
+                <!-- Кнопка для следующего трека -->
+                <button class="control-button" onclick="nextTrack();">
                     <img src="icons/next.png" alt="Следующий трек">
                 </button>
             </div>

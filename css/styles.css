@@ -30,9 +30,6 @@ body {
   height: 300px;
   overflow: hidden;
   margin-bottom: 20px;
-  border: 2px solid #a9a9a9;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #a9a9a9, 0 0 30px #a9a9a9; 
   position: relative;
   display: flex;
   justify-content: center;
@@ -42,11 +39,44 @@ body {
 #current-image {
   max-width: 100%;
   max-height: 100%;
-  border-radius: 10px;
   opacity: 1;
   transition: opacity 0.5s ease;
 }
 
+
+
+/* Новые кнопки переключения изображений */
+.image-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(169, 169, 169, 0.7);
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  color: white;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.image-nav-button.left {
+  left: -70px; /* Сдвиг кнопки "Назад" влево */
+}
+
+.image-nav-button.right {
+  right: -70px; /* Сдвиг кнопки "Вперед" вправо */
+}
+
+.image-nav-button:hover {
+  transform: translateY(-50%) scale(1.1);
+  background-color: rgba(169, 169, 169, 1);
+}
+
+
+/* Управление аудиоплеером */
 .control-button.large {
   width: 120px;
   height: 50px;
@@ -86,26 +116,6 @@ body {
   gap: 20px;
 }
 
-
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  border: #a9a9a9 1px solid; 
-  border-radius: 5px;
-}
-
-#timing {
-  padding: 5px;
-  margin-right: 10px;
-  border: 2px solid #a9a9a9; 
-  border-radius: 5px;
-  width: 30px;
-  text-align: center;
-}
-
 #audio-upload {
   padding: 10px;
   border: 2px solid #a9a9a9;
@@ -125,98 +135,17 @@ canvas {
     margin-top: 20px;
 }
 
-.horizontal-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.visualizer {
-  background-color: #e0e0e0; 
-}
-
-#audio-filename {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #333;
-}
-
-.horizontal {
-  width: 100%;
-  height: 50px;
-  margin-bottom: 10px;
-}
-
-.vertical {
-  width: 50px;
-  height: 100%;
-}
-
 #progress-bar {
   width: 80%;
   margin: 20px 0;
   cursor: pointer;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
-.gallery-container {
-  text-align: center;
-  max-width: 800px;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 30px rgba(169, 169, 169, 0.5), 0 0 50px rgba(169, 169, 169, 0.2);
-  background: linear-gradient(145deg, #d3d3d3, #a9a9a9);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-#image-container {
-  width: 100%;
-  max-width: 398px;
-  max-height: 265px;
-  overflow: hidden;
-  margin: 0 20px;
-  border: 3px solid #a9a9a9;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #a9a9a9, 0 0 30px #a9a9a9;
-  position: relative;
-}
-
-.visualizer {
-  width: 100px;
-  height: 300px;
-  background-color: #e0e0e0;
-}
-
-.image-nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(169, 169, 169, 0.7);
+/* Разделительная черта */
+.divider {
+  width: 80%;
+  height: 2px;
+  background-color: #a9a9a9;
+  margin: 20px 0;
   border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.image-nav-button.left {
-  left: 5px;
-}
-
-.image-nav-button.right {
-  right: 5px;
-}
-
-.image-nav-button:hover {
-  transform: translateY(-50%) scale(1.1);
-  background-color: rgba(169, 169, 169, 1);
 }
