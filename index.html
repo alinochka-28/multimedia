@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>галерея изображений</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея изображений и аудиоплеер</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="gallery-container">
@@ -21,27 +21,24 @@
         <hr class="divider"> <!-- Разделительная черта -->
     
         <div class="audio-controls">
-    
             <div class="player-controls">
-                <!-- Кнопка для предыдущего трека с классом large -->
                 <button class="control-button large" onclick="previousTrack();">
                     <img src="icons/previous.png" alt="Предыдущий трек">
                 </button>
-            
-                <!-- Кнопка воспроизведения/паузы -->
                 <button class="control-button" id="play-pause-button" onclick="togglePlayPause()">
                     <img id="play-pause-icon" src="icons/play.png" alt="Воспроизведение">
                 </button>
-            
-                <!-- Кнопка для следующего трека -->
                 <button class="control-button" onclick="nextTrack();">
                     <img src="icons/next.png" alt="Следующий трек">
                 </button>
-            </div>            
-    
+            </div>
+            
             <input type="range" id="progress-bar" value="0" min="0" max="100" step="1" onchange="changeAudioPosition()">
-    
-            <input type="file" id="audio-upload" accept="audio/*" onchange="uploadAudio(event)">
+
+            <hr class="divider2">
+
+            <!-- Добавление div для круга -->
+            <div id="circle" style="width: 50px; height: 50px; border-radius: 50%; background-color: rgba(255, 0, 0, 0.5); position: absolute; left: 50%; transform: translateX(-50%);"></div>
         </div>
     </div>    
     <script src="js/script.js"></script>

@@ -1,8 +1,8 @@
 // Создание аудиоконтекста и анализатора для визуализации
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const analyser = audioCtx.createAnalyser();
-const audioElement = new Audio('music/muz1.mp3');
+const audioElement = new Audio('music/muz1.mp3'); // Set your default audio track here
 const source = audioCtx.createMediaElementSource(audioElement);
+const analyser = audioCtx.createAnalyser();
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
@@ -13,39 +13,46 @@ const canvasCtx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 90;
 
-function drawSpectrum() {
-    requestAnimationFrame(drawSpectrum);
+function drawWaveform() {
+    requestAnimationFrame(drawWaveform);
 
-    const bufferLength = analyser.frequencyBinCount; // Количество частот
-    const dataArray = new Uint8Array(bufferLength);
-    analyser.getByteFrequencyData(dataArray); // Получение данных о частотах
+    const bufferLength = analyser.fftSize; // Используем FFT размер
+    const dataArray = new Float32Array(bufferLength);
+    analyser.getFloatTimeDomainData(dataArray); // Получаем данные по времени
 
-    canvasCtx.clearRect(0, 0, canvas.width, canvas.height); // Очистка холста
+    canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Прозрачный фон
+    canvasCtx.fillRect(0, 0, canvas.width, canvas.height); // Очищаем холст
 
-    const barWidth = (canvas.width / bufferLength) * 2.5; // Ширина баров
-    let barHeight;
+    canvasCtx.lineWidth = 2; // Толщина линии
+    canvasCtx.strokeStyle = 'rgb(255, 255, 255)'; // Цвет линии
+
+    canvasCtx.beginPath();
+
+    const sliceWidth = canvas.width / bufferLength; // Ширина каждого среза
     let x = 0;
 
     for (let i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i]; // Высота бара
+        const v = dataArray[i] * 0.5 + 0.5; // Преобразуем данные в диапазон [0, 1]
+        const y = v * canvas.height; // Масштабируем по высоте
 
-        const r = barHeight + 100; // Красный
-        const g = Math.max(0, 255 - barHeight); // Зеленый
-        const b = 50 + (barHeight / 2); // Синий
+        if (i === 0) {
+            canvasCtx.moveTo(x, y); // Начальная точка
+        } else {
+            canvasCtx.lineTo(x, y); // Соединяем линии
+        }
 
-        canvasCtx.fillStyle = `rgb(${r},${g},${b})`;
-        canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2); // Рисуем прямоугольник
-
-        x += barWidth + 1; // Переход к следующему бару
+        x += sliceWidth; // Переход к следующему срезу
     }
+
+    canvasCtx.lineTo(canvas.width, canvas.height / 2); // Завершаем линию
+    canvasCtx.stroke(); // Рисуем линию
 }
 
 // Вызов функции визуализации при воспроизведении аудио
 audioElement.onplay = () => {
     audioCtx.resume();
-    drawSpectrum(); // Запуск визуализации спектра
+    drawWaveform(); // Запуск визуализации волны
 };
-
 
 // Логика переключения изображений
 const images = [
@@ -82,17 +89,14 @@ function nextImage() {
 
 function prevImage() {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateImage();
 }
 
 function setAutoSwitch() {
     clearInterval(intervalId);
-    const timing = document.getElementById('timing') ? document.getElementById('timing').value * 1000 : 5000;
-    intervalId = setInterval(nextImage, timing);
+    intervalId = setInterval(nextImage, 5000); // Set timing for automatic switching
 }
 
 // Логика управления аудиоплеером
-let currentTrackIndex = 0;
 let isPlaying = false;
 
 function togglePlayPause() {
@@ -134,62 +138,31 @@ function changeAudioPosition() {
     audioElement.currentTime = (progressBar.value / 100) * audioElement.duration;
 }
 
-function changeTrack(trackNumber) {
-    const audioFiles = ['music/muz1.mp3', 'music/muz2.mp3', 'music/muz3.mp3'];
-    const trackNames = ['sometimes all i think about is you', 'best friend', 'mine'];
-
-    console.log("Changing track to: ", audioFiles[trackNumber]);
-
-    currentTrackIndex = (trackNumber + audioFiles.length - 1) % audioFiles.length;
-
-    const progressBar = document.getElementById('progress-bar');
-    progressBar.classList.add('hidden');
-
-    audioElement.src = audioFiles[currentTrackIndex];
-    document.getElementById('audio-filename').textContent = trackNames[currentTrackIndex];
-
-    audioElement.addEventListener('loadedmetadata', () => {
-        console.log('Audio loaded:', audioElement.src);
-        progressBar.value = 0;
-        progressBar.classList.remove('hidden');
-
-        audioElement.play().then(() => {
-            console.log("Playing audio: ", audioElement.src);
-        }).catch(error => {
-            console.error("Error playing audio: ", error);
-        });
-
-        document.getElementById('play-pause-icon').src = 'icons/pause.png';
-        isPlaying = true;
-    }, { once: true });
-}
-
+const audioFiles = ['music/muz1.mp3', 'music/muz2.mp3', 'music/muz3.mp3'];
+let currentTrackIndex = 0;
 
 function nextTrack() {
-    changeTrack(currentTrackIndex + 2);
-}
-
-function previousTrack() {
+    currentTrackIndex = (currentTrackIndex + 1) % audioFiles.length;
     changeTrack(currentTrackIndex);
 }
 
-function uploadAudio(event) {
-    const file = event.target.files[0];
-    if (file) {
-        document.getElementById('audio-filename').textContent = file.name;
-
-        audioElement.src = URL.createObjectURL(file);
-        audioElement.play();
-        console.log(audioElement.src)
-        document.getElementById('play-pause-icon').src = 'icons/pause.png';
-        isPlaying = true;
-    }
+function previousTrack() {
+    currentTrackIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
+    changeTrack(currentTrackIndex);
 }
 
-audioElement.addEventListener('ended', nextTrack);
+function changeTrack(trackNumber) {
+    audioElement.src = audioFiles[trackNumber];
+    audioElement.play();
+    document.getElementById('play-pause-icon').src = 'icons/pause.png';
+    isPlaying = true;
 
-// Включение аудиоконтекста и запуска визуализатора при воспроизведении
-audioElement.onplay = () => {
-    audioCtx.resume();
-    drawVisualizer();
-};
+    audioElement.addEventListener('loadedmetadata', () => {
+        progressBar.value = 0;
+    }, { once: true });
+}
+
+// Automatically play the first track on page load
+document.addEventListener('DOMContentLoaded', () => {
+    audioElement.play();
+});
