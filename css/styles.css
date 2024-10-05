@@ -43,8 +43,6 @@ body {
   transition: opacity 0.5s ease;
 }
 
-
-
 /* Новые кнопки переключения изображений */
 .image-nav-button {
   position: absolute;
@@ -63,18 +61,17 @@ body {
 }
 
 .image-nav-button.left {
-  left: -70px; /* Сдвиг кнопки "Назад" влево */
+  left: -70px; /* Увеличил смещение влево */
 }
 
 .image-nav-button.right {
-  right: -70px; /* Сдвиг кнопки "Вперед" вправо */
+  right: -70px; /* Увеличил смещение вправо */
 }
 
 .image-nav-button:hover {
   transform: translateY(-50%) scale(1.1);
   background-color: rgba(169, 169, 169, 1);
 }
-
 
 /* Управление аудиоплеером */
 .control-button.large {
