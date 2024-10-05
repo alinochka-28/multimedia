@@ -56,13 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function updateImage() {
     const imageElement = document.getElementById('current-image');
-    const commentElement = document.getElementById('image-comment');
 
     imageElement.style.opacity = 0;
 
     setTimeout(() => {
         imageElement.src = images[currentIndex].src;
-        commentElement.textContent = images[currentIndex].comment;
 
         imageElement.onload = () => {
             imageElement.style.opacity = 1;

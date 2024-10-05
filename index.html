@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Галерея и аудиоплеер</title>
+  <title>галерея изображений</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="gallery-container">
         <div id="image-container">
-            <button class="image-nav-button left" onclick="prevImage()">&#10094;</button>
+            <button class="image-nav-button left" onclick="prevImage()">&#10094;</button> <!-- Кнопка "Назад" -->
             <img id="current-image" src="img/image1.png" alt="Gallery Image">
-            <button class="image-nav-button right" onclick="nextImage()">&#10095;</button>
+            <button class="image-nav-button right" onclick="nextImage()">&#10095;</button> <!-- Кнопка "Вперед" -->
         </div>
-        <p id="image-comment">Цветок</p>
 
         <hr class="divider"> <!-- Разделительная черта -->
 
@@ -21,21 +20,26 @@
             <p id="audio-filename"> </p>
 
             <div class="player-controls">
+                <!-- Кнопка для предыдущего трека -->
                 <button class="control-button" onclick="previousTrack();">
                     <img src="icons/previous.png" alt="Предыдущий трек">
                 </button>
+
+                <!-- Кнопка воспроизведения/паузы -->
                 <button class="control-button" id="play-pause-button" onclick="togglePlayPause()">
                     <img id="play-pause-icon" src="icons/play.png" alt="Воспроизведение">
                 </button>
+
+                <!-- Кнопка для следующего трека -->
                 <button class="control-button" onclick="nextTrack();">
                     <img src="icons/next.png" alt="Следующий трек">
                 </button>
             </div>
 
             <input type="range" id="progress-bar" value="0" min="0" max="100" step="1" onchange="changeAudioPosition()">
+
             <input type="file" id="audio-upload" accept="audio/*" onchange="uploadAudio(event)">
         </div>
-        <canvas></canvas> <!-- Добавьте canvas для визуализации -->
     </div>
     <script src="js/script.js"></script>
 </body>

@@ -61,11 +61,11 @@ body {
 }
 
 .image-nav-button.left {
-  left: -70px; /* Увеличил смещение влево */
+  left: -10px; /* Увеличил смещение влево */
 }
 
 .image-nav-button.right {
-  right: -70px; /* Увеличил смещение вправо */
+  right: -10px; /* Увеличил смещение вправо */
 }
 
 .image-nav-button:hover {
