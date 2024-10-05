@@ -13,32 +13,47 @@ const canvasCtx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 90;
 
-function drawVisualizer() {
-    requestAnimationFrame(drawVisualizer);
+function drawWaveform() {
+    requestAnimationFrame(drawWaveform);
 
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    analyser.getByteFrequencyData(dataArray);
+    const bufferLength = analyser.fftSize; // Используем FFT размер
+    const dataArray = new Float32Array(bufferLength);
+    analyser.getFloatTimeDomainData(dataArray); // Получаем данные по времени
 
-    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Прозрачный фон
+    canvasCtx.fillRect(0, 0, canvas.width, canvas.height); // Очищаем холст
 
-    const barWidth = (canvas.width / bufferLength) * 2.5;
-    let barHeight;
+    canvasCtx.lineWidth = 2; // Толщина линии
+    canvasCtx.strokeStyle = 'rgb(255, 255, 255)'; // Цвет линии
+
+    canvasCtx.beginPath();
+
+    const sliceWidth = canvas.width / bufferLength; // Ширина каждого среза
     let x = 0;
 
     for (let i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i];
+        const v = dataArray[i] * 0.5 + 0.5; // Преобразуем данные в диапазон [0, 1]
+        const y = v * canvas.height; // Масштабируем по высоте
 
-        const r = barHeight + 100;
-        const g = Math.max(0, 255 - barHeight);
-        const b = 50 + (barHeight / 2);
+        if (i === 0) {
+            canvasCtx.moveTo(x, y); // Начальная точка
+        } else {
+            canvasCtx.lineTo(x, y); // Соединяем линии
+        }
 
-        canvasCtx.fillStyle = `rgb(${r},${g},${b})`;
-        canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
-
-        x += barWidth + 1;
+        x += sliceWidth; // Переход к следующему срезу
     }
+
+    canvasCtx.lineTo(canvas.width, canvas.height / 2); // Завершаем линию
+    canvasCtx.stroke(); // Рисуем линию
 }
+
+// Вызов функции визуализации при воспроизведении аудио
+audioElement.onplay = () => {
+    audioCtx.resume();
+    drawWaveform(); // Запуск визуализации волны
+};
+
 
 // Логика переключения изображений
 const images = [
