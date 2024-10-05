@@ -140,9 +140,10 @@ canvas {
 
 /* Разделительная черта */
 .divider {
-  width: 80%;
-  height: 2px;
-  background-color: #a9a9a9;
-  margin: 20px 0;
-  border: none;
+  width: 80%; /* Ширина разделительной черты */
+  height: 2px; /* Высота разделительной черты */
+  background-color: #a9a9a9; /* Цвет разделительной черты */
+  margin: 20px 0; /* Отступы сверху и снизу */
+  border: none; /* Убираем границы */
 }
+
