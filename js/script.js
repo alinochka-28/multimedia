@@ -57,15 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateImage() {
     const imageElement = document.getElementById('current-image');
 
-    imageElement.style.opacity = 0;
+    imageElement.style.opacity = 0; // Уменьшаем непрозрачность
 
     setTimeout(() => {
-        imageElement.src = images[currentIndex].src;
+        imageElement.src = images[currentIndex].src; // Меняем изображение
 
         imageElement.onload = () => {
-            imageElement.style.opacity = 1;
+            imageElement.style.opacity = 1; // Восстанавливаем непрозрачность после загрузки
         };
-    }, 500);
+    }, 500); // Задержка перед обновлением изображения
 }
 
 function nextImage() {
@@ -180,11 +180,6 @@ function uploadAudio(event) {
 }
 
 audioElement.addEventListener('ended', nextTrack);
-
-// Остановка автоматического переключения
-function stopAutoSwitch() {
-    clearInterval(intervalId);
-}
 
 // Включение аудиоконтекста и запуска визуализатора при воспроизведении
 audioElement.onplay = () => {
