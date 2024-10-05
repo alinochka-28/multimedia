@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>галерея изображений</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <div id="image-container">
+            <img id="current-image" src="img/image1.png" alt="Gallery Image">
+        </div>
+        <p id="image-comment">Цветок</p>
+
+        <div class="audio-controls">
+            <p id="audio-filename"> </p>
+
+            <div class="player-controls">
+                <!-- Кнопка для предыдущего трека и изображения -->
+                <button class="control-button" onclick="previousTrack(); prevImage();">
+                    <img src="icons/previous.png" alt="Предыдущий трек">
+                </button>
+
+                <!-- Кнопка воспроизведения/паузы -->
+                <button class="control-button" id="play-pause-button" onclick="togglePlayPause()">
+                    <img id="play-pause-icon" src="icons/play.png" alt="Воспроизведение">
+                </button>
+
+                <!-- Кнопка для следующего трека и изображения -->
+                <button class="control-button" onclick="nextTrack(); nextImage();">
+                    <img src="icons/next.png" alt="Следующий трек">
+                </button>
+            </div>
+
+            <input type="range" id="progress-bar" value="0" min="0" max="100" step="1" onchange="changeAudioPosition()">
+
+            <input type="file" id="audio-upload" accept="audio/*" onchange="uploadAudio(event)">
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
