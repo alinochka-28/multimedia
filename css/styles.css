@@ -229,6 +229,7 @@ canvas {
   align-items: flex-end; /* Выравнивание по нижней части */
   height: 100px; /* Высота контейнера */
   margin-top: 20px; /* Отступ сверху */
+  padding: 0 20px; /* Внутренний отступ */
 }
 
 .ball {
@@ -236,5 +237,6 @@ canvas {
   height: 50px; /* Высота шарика */
   background-color: gray; /* Цвет шарика */
   border-radius: 50%; /* Скругление для создания шарика */
-  transition: transform 0.5s ease; /* Плавное увеличение шариков */
+  transition: transform 0.1s ease; /* Плавное увеличение шариков */
+  margin: 0 10px; /* Отступы между шариками */
 }

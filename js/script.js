@@ -8,20 +8,25 @@ analyser.connect(audioCtx.destination);
 
 // Настройки визуализации аудио
 const balls = document.querySelectorAll('.ball'); // Получаем все шарики
-const frequencyData = new Uint8Array(analyser.frequencyBinCount); // Массив для частотных данных
-let currentBallIndex = 0; // Индекс текущего шарика
 
 function animateBalls() {
     requestAnimationFrame(animateBalls);
 
-    analyser.getByteFrequencyData(frequencyData); // Получаем данные частот
+    const bufferLength = analyser.frequencyBinCount; // Используем количество частот
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(dataArray); // Получаем данные частот
 
-    balls.forEach((ball, i) => {
-        const scaleFactor = (frequencyData[i] / 255) * 1.5; // Нормируем данные для масштабирования
-        const jumpHeight = (frequencyData[i] / 255) * 30; // Максимальная высота прыжка (в пикселях)
+    // Перебираем каждый шарик и изменяем его положение
+    balls.forEach((ball, index) => {
+        // Устанавливаем максимальное значение высоты, на которое будет прыгать шарик
+        const maxJumpHeight = 100; // Пик (в пикселях) прыжка
 
-        // Увеличиваем шарик и меняем его положение
-        ball.style.transform = `translateY(${-jumpHeight}px) scale(${scaleFactor})`; // Двигаем шарик вверх и изменяем его размер
+        // Получаем значение амплитуды для текущего шарика
+        const amplitude = dataArray[index] || 0; // Защита от NaN
+        const jumpHeight = (amplitude / 255) * maxJumpHeight; // Нормализуем значение
+
+        // Применяем стиль для перемещения шарика
+        ball.style.transform = `translateY(-${jumpHeight}px)`; // Поднимаем шарик
     });
 }
 
