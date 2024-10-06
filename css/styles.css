@@ -3,12 +3,45 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #e0e0e0; 
+  background-color: #c8c7c7; 
   color: #333; 
   font-family: 'Arial', sans-serif;
   padding-left: 50%;
   padding-right: 50%;
   box-sizing: border-box;
+}
+
+.timing-control {
+  margin: 20px 0; /* Добавляем отступы сверху и снизу для пространства */
+  text-align: center; /* Выравниваем текст по центру */
+}
+
+#timing-input {
+  width: 42px; /* Ширина поля ввода */
+  margin-left: 11px; /* Расстояние между меткой и полем ввода */
+  padding: 10px 20px; /* Увеличиваем внутренние отступы для более овальной формы */
+  font-size: 16px; /* Размер шрифта */
+  border-radius: 20px; /* Овальная форма с помощью скругления углов */
+  border: none; /* Убираем стандартную границу */
+  background-color: #d1d1d1; /* Серый цвет фона */
+  color: #000000; /* Цвет текста */
+  cursor: pointer; /* Курсор в виде руки при наведении */
+  transition: background-color 0.3s ease; /* Плавный переход при изменении цвета */
+}
+
+#set-timing, #cancel-switch {
+  padding: 10px 20px; /* Увеличиваем внутренние отступы для более овальной формы */
+  font-size: 16px; /* Размер шрифта */
+  border-radius: 20px; /* Овальная форма с помощью скругления углов */
+  border: none; /* Убираем стандартную границу */
+  background-color: #d1d1d1; /* Серый цвет фона */
+  color: #000000; /* Цвет текста */
+  cursor: pointer; /* Курсор в виде руки при наведении */
+  transition: background-color 0.3s ease; /* Плавный переход при изменении цвета */
+}
+
+#set-timing:hover, #cancel-switch:hover {
+  background-color: #848383; /* Темнее серый цвет при наведении */
 }
 
 .gallery-container {
@@ -17,7 +50,8 @@ body {
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 0 30px rgba(169, 169, 169, 0.5), 0 0 50px rgba(169, 169, 169, 0.2); 
-  background: linear-gradient(145deg, #d3d3d3, #a9a9a9); 
+  /*background: linear-gradient(145deg, #d3d3d3, #a9a9a9); */
+  background: #a9a9a9;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -41,6 +75,13 @@ body {
   max-height: 100%;
   opacity: 1;
   transition: opacity 0.5s ease;
+}
+
+.image-comment {
+  margin-top: 10px; /* Отступ сверху */
+  font-size: 16px; /* Размер шрифта */
+  color: #333; /* Цвет текста */
+  text-align: center; /* Выравнивание по центру */
 }
 
 /* кнопки переключения изображений */

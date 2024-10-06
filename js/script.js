@@ -38,9 +38,9 @@ audioElement.onplay = () => {
 
 // Логика переключения изображений
 const images = [
-    { src: 'img/image1.png', comment: '' },
-    { src: 'img/image2.png', comment: '' },
-    { src: 'img/image3.png', comment: '' }
+    { src: 'img/image1.png', comment: 'heat waves' },
+    { src: 'img/image2.png', comment: 'best friend' },
+    { src: 'img/image3.png', comment: 'mine' }
 ];
 let currentIndex = 0;
 let intervalId;
@@ -53,10 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // Обновление изображения
 function updateImage() {
     const imageElement = document.getElementById('current-image');
+    const commentElement = document.getElementById('comment');
     imageElement.style.opacity = 0; // Уменьшаем непрозрачность
 
     setTimeout(() => {
         imageElement.src = images[currentIndex].src; // Меняем изображение
+        commentElement.textContent = images[currentIndex].comment; // Обновляем комментарий
         imageElement.onload = () => {
             imageElement.style.opacity = 1; // Восстанавливаем непрозрачность после загрузки
         };
@@ -64,18 +66,45 @@ function updateImage() {
 }
 
 function nextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
+    currentIndex = (currentIndex + 1) % images.length; // Увеличиваем индекс и используем модуль для перехода к началу
     updateImage();
 }
 
 function prevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    currentIndex = (currentIndex - 1 + images.length) % images.length; // Уменьшаем индекс и используем модуль для перехода к концу
+    updateImage(); // Обновляем изображение
 }
 
 function setAutoSwitch() {
     clearInterval(intervalId);
     intervalId = setInterval(nextImage, 5000); // Установка времени для автоматического переключения
 }
+
+function setAutoSwitch() {
+    clearInterval(intervalId);
+    intervalId = setInterval(nextImage, intervalTime); // Используем переменную intervalTime для автоматического переключения
+}
+
+// Добавляем слушатель событий для кнопки установки времени переключения
+document.getElementById('set-timing').addEventListener('click', () => {
+    const timingInput = document.getElementById('timing-input').value;
+    intervalTime = timingInput * 1000; // Преобразуем секунды в миллисекунды
+    setAutoSwitch(); // Перезапускаем переключение с новым временем
+});
+
+// Добавляем обработчик событий для кнопки "Отменить"
+document.getElementById('cancel-switch').addEventListener('click', () => {
+    clearInterval(intervalId); // Останавливаем автопереключение
+});
+
+// Остальной код остается без изменений
+
+
+// Инициализация автоматического переключения при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    updateImage();
+    setAutoSwitch(); // Запуск с временем по умолчанию
+});
 
 // Логика управления аудиоплеером
 let isPlaying = false;

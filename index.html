@@ -8,6 +8,13 @@
 </head>
 <body>
     <div class="gallery-container">
+        <div class="timing-control">
+            <label for="timing-input">Установите время переключения (в секундах):</label>
+            <input type="number" id="timing-input" value="5" min="1" step="1" />
+            <button id="set-timing">установить</button>
+            <button id="cancel-switch">отменить</button> 
+        </div>
+               
         <div id="image-container">
             <button class="image-nav-button left" onclick="prevImage()">
                 <span class="arrow-icon">&#10094;</span>
@@ -17,6 +24,7 @@
                 <span class="arrow-icon">&#10095;</span>
             </button>
         </div>
+        <div id="comment" class="image-comment">heat waves</div>
         
         <hr class="divider"> <!-- Разделительная черта -->
     
