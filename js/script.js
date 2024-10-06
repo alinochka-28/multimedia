@@ -1,57 +1,34 @@
 // Создание аудиоконтекста и анализатора для визуализации
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const audioElement = new Audio('music/muz1.mp3'); // Set your default audio track here
+const audioElement = new Audio('music/muz1.mp3'); // Укажите свой аудиотрек здесь
 const source = audioCtx.createMediaElementSource(audioElement);
 const analyser = audioCtx.createAnalyser();
 source.connect(analyser);
 analyser.connect(audioCtx.destination);
 
 // Настройки визуализации аудио
-const canvas = document.createElement('canvas');
-document.querySelector('.audio-controls').appendChild(canvas);
-const canvasCtx = canvas.getContext('2d');
-canvas.width = 800;
-canvas.height = 90;
+const balls = document.querySelectorAll('.ball'); // Получаем все шарики
+const frequencyData = new Uint8Array(analyser.frequencyBinCount); // Массив для частотных данных
+let currentBallIndex = 0; // Индекс текущего шарика
 
-function drawWaveform() {
-    requestAnimationFrame(drawWaveform);
+function animateBalls() {
+    requestAnimationFrame(animateBalls);
 
-    const bufferLength = analyser.fftSize; // Используем FFT размер
-    const dataArray = new Float32Array(bufferLength);
-    analyser.getFloatTimeDomainData(dataArray); // Получаем данные по времени
+    analyser.getByteFrequencyData(frequencyData); // Получаем данные частот
 
-    canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Прозрачный фон
-    canvasCtx.fillRect(0, 0, canvas.width, canvas.height); // Очищаем холст
+    balls.forEach((ball, i) => {
+        const scaleFactor = (frequencyData[i] / 255) * 1.5; // Нормируем данные для масштабирования
+        const jumpHeight = (frequencyData[i] / 255) * 30; // Максимальная высота прыжка (в пикселях)
 
-    canvasCtx.lineWidth = 2; // Толщина линии
-    canvasCtx.strokeStyle = 'rgb(255, 255, 255)'; // Цвет линии
-
-    canvasCtx.beginPath();
-
-    const sliceWidth = canvas.width / bufferLength; // Ширина каждого среза
-    let x = 0;
-
-    for (let i = 0; i < bufferLength; i++) {
-        const v = dataArray[i] * 0.5 + 0.5; // Преобразуем данные в диапазон [0, 1]
-        const y = v * canvas.height; // Масштабируем по высоте
-
-        if (i === 0) {
-            canvasCtx.moveTo(x, y); // Начальная точка
-        } else {
-            canvasCtx.lineTo(x, y); // Соединяем линии
-        }
-
-        x += sliceWidth; // Переход к следующему срезу
-    }
-
-    canvasCtx.lineTo(canvas.width, canvas.height / 2); // Завершаем линию
-    canvasCtx.stroke(); // Рисуем линию
+        // Увеличиваем шарик и меняем его положение
+        ball.style.transform = `translateY(${-jumpHeight}px) scale(${scaleFactor})`; // Двигаем шарик вверх и изменяем его размер
+    });
 }
 
 // Вызов функции визуализации при воспроизведении аудио
 audioElement.onplay = () => {
     audioCtx.resume();
-    drawWaveform(); // Запуск визуализации волны
+    animateBalls(); // Запуск анимации шариков
 };
 
 // Логика переключения изображений
@@ -68,14 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
     setAutoSwitch();
 });
 
+// Обновление изображения
 function updateImage() {
     const imageElement = document.getElementById('current-image');
-
     imageElement.style.opacity = 0; // Уменьшаем непрозрачность
 
     setTimeout(() => {
         imageElement.src = images[currentIndex].src; // Меняем изображение
-
         imageElement.onload = () => {
             imageElement.style.opacity = 1; // Восстанавливаем непрозрачность после загрузки
         };
@@ -93,7 +69,7 @@ function prevImage() {
 
 function setAutoSwitch() {
     clearInterval(intervalId);
-    intervalId = setInterval(nextImage, 5000); // Set timing for automatic switching
+    intervalId = setInterval(nextImage, 5000); // Установка времени для автоматического переключения
 }
 
 // Логика управления аудиоплеером
@@ -148,7 +124,6 @@ function nextTrack() {
 
 function previousTrack() {
     currentTrackIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
-    changeTrack(currentTrackIndex);
 }
 
 function changeTrack(trackNumber) {
@@ -162,7 +137,7 @@ function changeTrack(trackNumber) {
     }, { once: true });
 }
 
-// Automatically play the first track on page load
+// Автоматическое воспроизведение первого трека при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     audioElement.play();
 });

@@ -223,3 +223,18 @@ canvas {
   background: #000000; /* Цвет ползунка при фокусировке */
 }
 
+.audio-visualization {
+  display: flex;
+  justify-content: space-between; /* Равномерное распределение шариков */
+  align-items: flex-end; /* Выравнивание по нижней части */
+  height: 100px; /* Высота контейнера */
+  margin-top: 20px; /* Отступ сверху */
+}
+
+.ball {
+  width: 50px; /* Ширина шарика */
+  height: 50px; /* Высота шарика */
+  background-color: gray; /* Цвет шарика */
+  border-radius: 50%; /* Скругление для создания шарика */
+  transition: transform 0.5s ease; /* Плавное увеличение шариков */
+}
